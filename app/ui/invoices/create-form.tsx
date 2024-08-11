@@ -8,8 +8,9 @@ import {
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createInvoice } from '@/app/lib/actions';
+import { User } from '@/app/lib/api';
 
-export default function Form({ customers }: { customers: CustomerField[] }) {
+export default function Form({ customers }: { customers: User[] }) {
   return (
     <form action={createInvoice}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -30,7 +31,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               </option>
               {customers.map((customer) => (
                 <option key={customer.id} value={customer.id}>
-                  {customer.name}
+                  {customer.first_name}
                 </option>
               ))}
             </select>

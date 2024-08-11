@@ -6,6 +6,8 @@ import {
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
 
+import { User } from '@/app/lib/api';
+
 export default async function CustomersTable({
   customers,
 }: {
@@ -32,13 +34,13 @@ export default async function CustomersTable({
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
                             <Image
-                              src={customer.image_url}
+                              src={customer.avatar}
                               className="rounded-full"
-                              alt={`${customer.name}'s profile picture`}
+                              alt={`${customer.first_name}'s profile picture`}
                               width={28}
                               height={28}
                             />
-                            <p>{customer.name}</p>
+                            <p>{customer.first_name}</p>
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
@@ -89,13 +91,13 @@ export default async function CustomersTable({
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
                           <Image
-                            src={customer.image_url}
+                            src={customer.avatar}
                             className="rounded-full"
-                            alt={`${customer.name}'s profile picture`}
+                            alt={`${customer.first_name}'s profile picture`}
                             width={28}
                             height={28}
                           />
-                          <p>{customer.name}</p>
+                          <p>{customer.first_name}</p>
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">

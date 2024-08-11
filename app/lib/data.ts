@@ -35,7 +35,7 @@ export async function fetchLatestInvoices() {
       amount: invoice.amount,
       email: customer?.email,
       id: customer?.id,
-      image_url: customer?.image_url,
+      avatar: customer?.avatar,
       name: customer?.name
     }
     
@@ -109,7 +109,7 @@ export async function fetchFilteredCustomers(query: string) {
 		  customers.id,
 		  customers.name,
 		  customers.email,
-		  customers.image_url,
+		  customers.avatar,
 		  COUNT(invoices.id) AS total_invoices,
 		  SUM(CASE WHEN invoices.status = 'pending' THEN invoices.amount ELSE 0 END) AS total_pending,
 		  SUM(CASE WHEN invoices.status = 'paid' THEN invoices.amount ELSE 0 END) AS total_paid
@@ -118,7 +118,7 @@ export async function fetchFilteredCustomers(query: string) {
 		WHERE
 		  customers.name ILIKE ${`%${query}%`} OR
         customers.email ILIKE ${`%${query}%`}
-		GROUP BY customers.id, customers.name, customers.email, customers.image_url
+		GROUP BY customers.id, customers.name, customers.email, customers.avatar
 		ORDER BY customers.name ASC
 	  `;
 
