@@ -1,4 +1,4 @@
-import { FormattedCustomersTable, InvoiceForm, LatestInvoice } from "./definitions"
+import { FormattedCustomersTable, Invoice, InvoiceForm, LatestInvoice } from "./definitions"
 import { revenue } from "./placeholder-data"
 
 export interface Users {
@@ -7,7 +7,6 @@ export interface Users {
     total: number
     total_pages: number
     data: User[]
-    support: Support
 }
 
 export interface User {
@@ -19,11 +18,6 @@ export interface User {
     total_pending: string
     total_paid: string
     total_invoices: string
-}
-
-export interface Support {
-    url: string
-    text: string
 }
 
 export const fetchUsers = async (): Promise<Users> => {
@@ -38,7 +32,33 @@ export const fetchUsers = async (): Promise<Users> => {
     return data;
 };
 
-export const fetchInvoices = async () => {
+
+export const fetchUserById = async (id: string): Promise<User> => {
+
+    const response = await fetch(`https://reqres.in/api/users/${id}`);
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch users');
+    }
+
+    const { data } = await response.json();
+    return data as User;
+};
+
+
+export const fetchUsersByPage = async (page: number): Promise<Users> => {
+
+    const response = await fetch(`https://reqres.in/api/users?page=${page}`);
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch users');
+    }
+
+    const data: Users = await response.json();
+    return data;
+};
+
+export const fetchInvoices = async function (): Promise<Array<Invoice>> {
 
     const response = await fetch('https://reqres.in/api/users?page=2');
 
@@ -50,7 +70,7 @@ export const fetchInvoices = async () => {
 
     const customers = data.data
 
-    const invoices = [
+    const invoices: Array<Invoice> = [
         {
             customer_id: customers[0].id,
             amount: 15795,
@@ -183,27 +203,38 @@ export async function fetchFilteredInvoices(
     const customers = (await fetchUsers()).data
     const invoices = await fetchInvoices()
 
-    const customersFiltered = customers.filter(customer => customer.first_name.match(new RegExp(query, 'i')))
+    type InvoiceUser = Invoice & User
 
-    return customersFiltered.map(customer => {
+    let invoicesFiltered: Array<InvoiceUser> = []
 
-        const invoicesFiltered = invoices.find(invoice => invoice.customer_id === customer.id)
+    invoices.map(invoice => {
 
-        if (!invoicesFiltered) {
+        const customer = customers.find(customer => customer.id === invoice.customer_id)
 
-            throw new Error(`invoices are not for customer ${customer.id}`)
+        if (!customer) {
+
+            throw new Error(`invoices are not for customer ${invoice.customer_id}`)
         }
 
-        return {
-            ...invoicesFiltered,
+        invoicesFiltered.push({
+            ...invoice,
             ...customer
-        }
+        })
+
     })
+
+    invoicesFiltered = invoicesFiltered.filter(customer => customer.first_name.match(new RegExp(query, 'i')))
+
+    return invoicesFiltered
 }
 
 export async function fetchInvoicesPages(query: string) {
 
-    return 5
+    return 1
+}
+export async function fetchUsersPages(page: number) {
+
+    return (await fetchUsersByPage(page)).total_pages
 }
 
 export async function fetchInvoiceById(id: string) {
@@ -227,12 +258,10 @@ export async function fetchCustomers() {
     return customers
 }
 
-
 export async function fetchRevenue() {
 
     return revenue
 }
-
 
 export async function fetchFormattedCustomers() {
 

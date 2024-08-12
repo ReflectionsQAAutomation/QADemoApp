@@ -61,7 +61,32 @@ export async function updateInvoice(id: string, formData: FormData) {
 }
 
 export async function deleteInvoice(id: string) {
-    // await sql`DELETE FROM invoices WHERE id = ${id}`;
+
     console.log(id)
     revalidatePath('/dashboard/invoices');
+}
+
+export async function deleteUser(id: string) {
+
+    console.log(id)
+    revalidatePath('/dashboard/invoices');
+}
+
+export async function updateUser(id: string, formData: FormData) {
+    const { customerId, amount, status } = UpdateInvoice.parse({
+        customerId: formData.get('customerId'),
+        amount: formData.get('amount'),
+        status: formData.get('status'),
+    });
+
+    const amountInCents = amount * 100;
+
+    //   await sql`
+    //     UPDATE invoices
+    //     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    //     WHERE id = ${id}
+    //   `;
+
+    revalidatePath('/dashboard/users');
+    redirect('/dashboard/users');
 }
