@@ -261,3 +261,27 @@ export async function fetchFormattedCustomers() {
     return formattedCustomers
 
 }
+
+export async function login(email: string, password: string) {
+
+    const request = JSON.stringify({
+        email: email,
+        password: password
+    })
+
+    const response = await fetch('https://reqres.in/api/login', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: request
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch users');
+    }
+
+    const { token } = await response.json();
+
+    return token
+}
