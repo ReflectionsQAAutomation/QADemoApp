@@ -8,6 +8,11 @@ export async function POST(request: Request) {
 
   const token = await login(email, password)
 
+  if (!token) {
+
+    return NextResponse.json({ message: 'invalid username or password' }, { status: 400 })
+  }
+
   const cookie = cookies().set('token', token, {
     httpOnly: true,
     secure: true,
@@ -15,5 +20,5 @@ export async function POST(request: Request) {
     path: '/',
   })
 
-  return NextResponse.json({ message: 'Successfully logged in.' }, {status: 200})
+  return NextResponse.json({ message: 'Successfully logged in.' }, { status: 200 })
 }

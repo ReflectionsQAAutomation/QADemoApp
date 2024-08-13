@@ -2,9 +2,7 @@ import Pagination from '@/app/ui/users/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/users/table';
 import { lusitana } from '@/app/ui/fonts';
-import { Suspense } from 'react';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-import { fetchInvoicesPages, fetchUsersPages } from '@/app/lib/api';
+import { fetchUsersPages } from '@/app/lib/api';
 
 export default async function Page({
     searchParams,

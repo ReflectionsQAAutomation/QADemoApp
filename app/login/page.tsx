@@ -7,25 +7,33 @@ export default function LoginPage() {
 
     const router = useRouter()
 
+    let errorMessage: string = ''
+
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 
         event.preventDefault()
 
-        const formData = new FormData(event.currentTarget)
-        const email = formData.get('email')
-        const password = formData.get('password')
+        try {
+            const formData = new FormData(event.currentTarget)
+            const email = formData.get('email')
+            const password = formData.get('password')
 
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        })
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            })
 
-        if (response.ok) {
+            if (response.ok) {
 
-            router.push('/dashboard')
-        } else {
-            // Handle errors
+                router.push('/dashboard')
+            } else {
+            
+                errorMessage = 'invalid username or password'
+            }
+        } catch (error) {
+
+            errorMessage = 'invalid username or password'
         }
     }
 
@@ -41,7 +49,7 @@ export default function LoginPage() {
                             name='email'
                             type="email"
                             placeholder="Enter email"
-                            value='eve.holt@reqres.in'
+                            defaultValue='eve.holt@reqres.in'
                             onChange={(e) => e.target.value}
                             className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500"
                         />
@@ -53,11 +61,12 @@ export default function LoginPage() {
                             name='password'
                             type="password"
                             placeholder="Enter password"
-                            value='cityslicka'
+                            defaultValue='cityslicka'
                             onChange={(e) => e.target.value}
                             className="peer block w-full rounded-md border border-gray-200 py-[9px] text-sm outline-2 placeholder:text-gray-500"
                         />
                     </div>
+                    <p>{errorMessage}</p>
                     <button type="submit" className="h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 w-full text-center">
                         Login
                     </button>

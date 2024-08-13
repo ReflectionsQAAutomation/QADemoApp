@@ -181,24 +181,27 @@ export async function fetchLatestInvoices() {
         latestInvoices.push(latestInvoice)
     })
 
-    return latestInvoices
+    return latestInvoices.splice(0, 5)
 }
 
 export async function fetchCardData() {
+
+    const users = await fetchUsers()
+    const invoices = await fetchInvoices()
+
+    const paidInvoices = invoices.filter(invoice => invoice.status === 'paid')
+    const pendingInvoices = invoices.filter(invoice => invoice.status === 'pending')
     return {
-        numberOfCustomers: 5,
-        numberOfInvoices: 10,
-        totalPaidInvoices: 25,
-        totalPendingInvoices: 2,
+        numberOfCustomers: users.total,
+        numberOfInvoices: invoices.length,
+        totalPaidInvoices: paidInvoices.length,
+        totalPendingInvoices: pendingInvoices.length,
     };
 }
 
 const ITEMS_PER_PAGE = 6;
-export async function fetchFilteredInvoices(
-    query: string,
-    currentPage: number,
-) {
-    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+async function fetchFilteredInvoicesByQuery(query: string) {
 
     const customers = (await fetchUsers()).data
     const invoices = await fetchInvoices()
@@ -223,15 +226,32 @@ export async function fetchFilteredInvoices(
 
     })
 
-    invoicesFiltered = invoicesFiltered.filter(customer => customer.first_name.match(new RegExp(query, 'i')))
-
-    return invoicesFiltered
+    return invoicesFiltered.filter(customer => customer.first_name.match(new RegExp(query, 'i')))
 }
 
-export async function fetchInvoicesPages(query: string) {
 
-    return 1
+export async function fetchFilteredInvoices(
+    query: string,
+    currentPage: number,
+) {
+    let offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+    const invoicesFiltered = await fetchFilteredInvoicesByQuery(query);
+
+    offset = Math.max(offset, 0);
+
+    const limit = Math.min(ITEMS_PER_PAGE, invoicesFiltered.length - offset);
+
+    return invoicesFiltered.slice(offset, offset + limit);
 }
+
+export async function fetchInvoicesPages(query: string, page: number) {
+
+    const invoicesFiltered = await fetchFilteredInvoicesByQuery(query)
+
+    return Math.ceil(invoicesFiltered.length / ITEMS_PER_PAGE)
+}
+
 export async function fetchUsersPages(page: number) {
 
     return (await fetchUsersByPage(page)).total_pages
@@ -293,24 +313,30 @@ export async function fetchFormattedCustomers() {
 
 export async function login(email: string, password: string) {
 
-    const request = JSON.stringify({
-        email: email,
-        password: password
-    })
+    try {
 
-    const response = await fetch('https://reqres.in/api/login', {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: request
-    });
+        const request = JSON.stringify({
+            email: email,
+            password: password
+        })
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch users');
+        const response = await fetch('https://reqres.in/api/login', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: request
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch users');
+        }
+
+        const { token } = await response.json();
+
+        return token
+    } catch (error) {
+
+        return null
     }
-
-    const { token } = await response.json();
-
-    return token
 }
