@@ -10,22 +10,22 @@ import {
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateInvoice, updateUser } from '@/app/lib/actions';
+import { useState } from 'react';
 import { User } from '@/app/lib/api';
 
-export default function EditUserForm({
-  user,
-}: {
-  user: User;
-}) {
+export default function EditUserForm({ user }: { user: User }) {
+  
+  const [firstName, setFirstName] = useState(user.first_name);
+  const [lastName, setLastName] = useState(user.last_name);
+  const [email, setEmail] = useState(user.email);
 
   const updateUserWithId = updateUser.bind(null, user.id);
 
   return (
-    <form>
+    <form action={updateUserWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+          <label htmlFor="first_name" className="mb-2 block text-sm font-medium">
             First Name
           </label>
           <div className="relative mt-2 rounded-md">
@@ -33,7 +33,8 @@ export default function EditUserForm({
               <input
                 id="first_name"
                 name="first_name"
-                value={user.first_name}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Enter first name"
                 className="peer block w-full rounded-md border border-gray-200 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -41,7 +42,7 @@ export default function EditUserForm({
           </div>
         </div>
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+          <label htmlFor="last_name" className="mb-2 block text-sm font-medium">
             Last Name
           </label>
           <div className="relative mt-2 rounded-md">
@@ -49,7 +50,8 @@ export default function EditUserForm({
               <input
                 id="last_name"
                 name="last_name"
-                value={user.last_name}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 placeholder="Enter last name"
                 className="peer block w-full rounded-md border border-gray-200 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -57,7 +59,7 @@ export default function EditUserForm({
           </div>
         </div>
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
             Email
           </label>
           <div className="relative mt-2 rounded-md">
@@ -65,7 +67,8 @@ export default function EditUserForm({
               <input
                 id="email"
                 name="email"
-                value={user.email}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter email"
                 className="peer block w-full rounded-md border border-gray-200 text-sm outline-2 placeholder:text-gray-500"
               />

@@ -1,5 +1,5 @@
 import Form from '@/app/ui/users/edit-form';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchUserById, User } from '@/app/lib/api';
  
 export default async function Page({ params }: { params: { id: string } }) {

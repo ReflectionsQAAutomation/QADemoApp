@@ -3,6 +3,7 @@ import Search from '@/app/ui/search';
 import Table from '@/app/ui/users/table';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchUsersPages } from '@/app/lib/api';
+import { CreateUser } from '@/app/ui/invoices/buttons';
 
 export default async function Page({
     searchParams,
@@ -24,6 +25,7 @@ export default async function Page({
             </div>
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                 <Search placeholder="Search users..." />
+                <CreateUser/>
             </div>
             {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
             </Suspense> */}

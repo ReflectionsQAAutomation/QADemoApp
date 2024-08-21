@@ -11,7 +11,10 @@ export default async function UsersTable({
   currentPage: number;
 }) {
 
-  const users = (await fetchUsersByPage(currentPage)).data;
+  const usersData = (await fetchUsersByPage(currentPage)).data;
+
+  const users = usersData.filter(user => (user.first_name.match(new RegExp(query, 'i')) ||
+    user.last_name.match(new RegExp(query, 'i'))))
 
   return (
     <div className="mt-6 flow-root">
@@ -70,7 +73,7 @@ export default async function UsersTable({
                   key={user.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                   <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3">
                     {user.id}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">

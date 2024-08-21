@@ -92,7 +92,7 @@ export default async function InvoicesTable({
                         height={28}
                         alt={`${invoice.first_name}'s profile picture`}
                       />
-                      <p>{invoice.first_name}</p>
+                      <p>{`${invoice.first_name} ${invoice.last_name}`}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
