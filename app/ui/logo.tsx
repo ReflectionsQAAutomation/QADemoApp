@@ -10,8 +10,8 @@ export default function Logo() {
       {/* <GlobeAltIcon className="h-12 w-12 rotate-[15deg]" />
       <p className="text-[44px]">QA</p> */}
       <Image
-        src='../logo.svg'
-        className="mr-2 rounded-full"
+        src='/logo.svg'
+        className="mr-2"
         width={200}
         height={200}
         alt={`logo`}
