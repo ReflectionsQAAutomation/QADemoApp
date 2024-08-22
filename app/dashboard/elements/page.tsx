@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import { Tooltip } from 'react-tooltip'
+// import { Tooltip } from 'react-tooltip'
 import { lusitana } from '@/app/ui/fonts';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -12,6 +12,13 @@ const DemoPage = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [confirmationOpen, setConfirmationOpen] = useState<boolean>(false);
+  const [selectedOptions, setSelectedOptions] = useState<string[] | []>([]);
+  const [checkedItems, setCheckedItems] = useState({
+    usa: false,
+    canada: false,
+    mexico: false,
+  });
+
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -25,8 +32,27 @@ const DemoPage = () => {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { options } = e.target;
+    const selected = [];
+    for (const option of options) {
+      if (option.selected) {
+        selected.push(option.value);
+      }
+    }
+    setSelectedOptions(selected);
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setCheckedItems((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
   return (
-    <div className="p-4">
+    <div className="w-full">
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Elements</h1>
       </div>
@@ -160,21 +186,93 @@ const DemoPage = () => {
       </div>
 
       {/* Tooltips */}
+      {/* <div className='mb-4 pt-4'> */}
+      {/* <Tooltip showArrow={true} content="I am a tooltip">
+          <Button>Hover me</Button>
+        </Tooltip> */}
+      {/* </div> */}
       <div className='mb-4 pt-4'>
-        <Tooltip content="This is a tooltip" place="right" >
-          <button
-            data-tip="Hover over me!"
-            className="bg-purple-500 text-white py-2 px-4 text-sm rounded-md hover:bg-purple-600"
-          >Hover over me</button>
-        </Tooltip>
-      </div>
-      <div>
         <button
-          onClick={() => alert('Tooltip clicked!')}
+          onClick={() => {
+            const confirmed = window.confirm('Are you sure you want to proceed?');
+            if (confirmed) {
+              alert('You clicked OK!');
+            } else {
+              alert('You clicked Cancel.');
+            }
+          }}
           className="bg-indigo-500 text-white py-2 px-4 text-sm rounded-md hover:bg-indigo-600"
         >
-          Clickable Tooltip
+          Show Alert
         </button>
+      </div>
+
+
+      <div className='mb-4 pt-4'>
+        <form>
+          <div className='mb-6'>
+            <label htmlFor='multi-select' className='block text-md font-medium text-gray-800'>
+              Select Countries
+            </label>
+            <select
+              id='multi-select'
+              multiple
+              value={selectedOptions}
+              onChange={handleSelectChange}
+              className='mt-2 block w-full py-3 px-4 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition duration-200 ease-in-out'
+            >
+              <option value='usa'>United States</option>
+              <option value='canada'>Canada</option>
+              <option value='mexico'>Mexico</option>
+              <option value='brazil'>Brazil</option>
+              <option value='india'>India</option>
+              <option value='germany'>Germany</option>
+            </select>
+          </div>
+
+          <div className='mb-6'>
+            <label className='block text-md font-medium text-gray-800'>Choose Countries</label>
+            <div className='mt-3 space-y-3'>
+              <label className='flex items-center'>
+                <input
+                  type='checkbox'
+                  name='usa'
+                  checked={checkedItems.usa}
+                  onChange={handleCheckboxChange}
+                  className='form-checkbox h-5 w-5 text-indigo-600 transition duration-200 ease-in-out'
+                />
+                <span className='ml-3 text-gray-700 text-base'>United States</span>
+              </label>
+              <label className='flex items-center'>
+                <input
+                  type='checkbox'
+                  name='canada'
+                  checked={checkedItems.canada}
+                  onChange={handleCheckboxChange}
+                  className='form-checkbox h-5 w-5 text-indigo-600 transition duration-200 ease-in-out'
+                />
+                <span className='ml-3 text-gray-700 text-base'>Canada</span>
+              </label>
+              <label className='flex items-center'>
+                <input
+                  type='checkbox'
+                  name='mexico'
+                  checked={checkedItems.mexico}
+                  onChange={handleCheckboxChange}
+                  className='form-checkbox h-5 w-5 text-indigo-600 transition duration-200 ease-in-out'
+                />
+                <span className='ml-3 text-gray-700 text-base'>Mexico</span>
+              </label>
+            </div>
+          </div>
+
+          {/* <button
+            type='submit'
+            className='bg-indigo-500 text-white py-2 px-4 text-sm rounded-md hover:bg-indigo-600 transition duration-200 ease-in-out'
+          >
+            Submit
+          </button> */}
+        </form>
       </div>
 
       {/* Sliders */}
