@@ -83,7 +83,7 @@ export default function EditUserForm({ user }: { user: User }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Edit User</Button>
+        <Button type="submit" id="edit-user">Edit User</Button>
       </div>
     </form>
   );

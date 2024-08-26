@@ -108,6 +108,7 @@ export default function Form() {
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
           <input
+            id="email"
             type="email"
             placeholder="Enter email"
             className="border border-gray-300 p-2 rounded-md w-full text-sm"
@@ -121,6 +122,7 @@ export default function Form() {
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
           <input
+            id="password"
             type="password"
             placeholder="Enter password"
             className="border border-gray-300 p-2 rounded-md w-full text-sm"
@@ -130,6 +132,7 @@ export default function Form() {
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900">Country</label>
           <input
+            id="country"
             type="text"
             value={searchTerm}
             onChange={(e) => {
@@ -159,6 +162,7 @@ export default function Form() {
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
           <DatePicker
+            id="dateofbirth"
             selected={startDate}
             onChange={(date: Date | null) => setStartDate(date)}
             className="border border-gray-300 p-2 rounded-md md:w-96 text-sm"
@@ -173,6 +177,7 @@ export default function Form() {
       <div className="mb-4">
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">About</label>
         <textarea
+          id="about"
           placeholder="About user..."
           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
@@ -182,6 +187,7 @@ export default function Form() {
         <div className="flex items-center space-x-2">
           <div className="flex items-center">
             <input
+              id="genderm"
               type="radio"
               name="radioGroup"
               value="male"
@@ -193,6 +199,7 @@ export default function Form() {
           </div>
           <div className="flex items-center">
             <input
+              id="genderf"
               type="radio"
               name="radioGroup"
               value="female"
@@ -211,7 +218,7 @@ export default function Form() {
           <div className="relative inline-block">
             <input
               type="file"
-              id="file-upload"
+              id="profileimage"
               onChange={handleFileChange}
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
@@ -232,6 +239,7 @@ export default function Form() {
       <div className="mb-4">
         <input
           type="checkbox"
+          id="agreements"
           checked={checkboxValue}
           onChange={handleCheckboxChange}
           className="mr-2"
@@ -240,6 +248,7 @@ export default function Form() {
       </div>
       <div className="mb-4 flex space-x-2 pt-4 pb-4">
         <button
+          id="createuser"
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 text-sm"
         >
