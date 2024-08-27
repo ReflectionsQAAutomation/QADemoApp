@@ -14,27 +14,56 @@ import DatePicker from 'react-datepicker';
 
 export default function Form() {
 
-
-  const [selectedDate, setSelectedDate] = useState<string>('');
   const [checkboxValue, setCheckboxValue] = useState<boolean>(false);
   const [radioValue, setRadioValue] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
   const [selectedOption, setSelectedOption] = useState<string>('');
-  const [multiSelectedOptions, setMultiSelectedOptions] = useState<any[]>([]);
-  const [sliderValue, setSliderValue] = useState<number>(50);
-  const [rangeValue, setRangeValue] = useState<[number, number]>([20, 80]);
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [confirmationOpen, setConfirmationOpen] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const options = [
     { label: 'India', value: 'india' },
     { label: 'USA', value: 'usa' },
     { label: 'UK', value: 'uk' },
+    { label: 'Canada', value: 'canada' },
+    { label: 'Australia', value: 'australia' },
+    { label: 'Germany', value: 'germany' },
+    { label: 'France', value: 'france' },
+    { label: 'Italy', value: 'italy' },
+    { label: 'Brazil', value: 'brazil' },
+    { label: 'Japan', value: 'japan' },
+    { label: 'China', value: 'china' },
+    { label: 'South Korea', value: 'south-korea' },
+    { label: 'Mexico', value: 'mexico' },
+    { label: 'South Africa', value: 'south-africa' },
+    { label: 'Russia', value: 'russia' },
+    { label: 'Spain', value: 'spain' },
+    { label: 'Netherlands', value: 'netherlands' },
+    { label: 'Sweden', value: 'sweden' },
+    { label: 'Norway', value: 'norway' },
+    { label: 'Denmark', value: 'denmark' },
+    { label: 'Finland', value: 'finland' },
+    { label: 'New Zealand', value: 'new-zealand' },
+    { label: 'Argentina', value: 'argentina' },
+    { label: 'Chile', value: 'chile' },
+    { label: 'Colombia', value: 'colombia' },
+    { label: 'Peru', value: 'peru' },
+    { label: 'Malaysia', value: 'malaysia' },
+    { label: 'Singapore', value: 'singapore' },
+    { label: 'Thailand', value: 'thailand' },
+    { label: 'Indonesia', value: 'indonesia' },
+    { label: 'Philippines', value: 'philippines' },
+    { label: 'Turkey', value: 'turkey' },
+    { label: 'Saudi Arabia', value: 'saudi-arabia' },
+    { label: 'United Arab Emirates', value: 'uae' },
+    { label: 'Israel', value: 'israel' },
+    { label: 'Egypt', value: 'egypt' },
+    { label: 'Morocco', value: 'morocco' },
+    { label: 'Nigeria', value: 'nigeria' },
+    { label: 'Kenya', value: 'kenya' },
+    { label: 'Ghana', value: 'ghana' },
+    { label: 'Zimbabwe', value: 'zimbabwe' },
   ];
 
   const filteredOptions = options.filter(option =>
@@ -43,17 +72,13 @@ export default function Form() {
 
   const handleSelect = (label: string, value: string) => {
     setSelectedOption(value);
-    setSearchTerm(label); // Update the search term to show the selected option in the input
-    setIsOpen(false); // Close the dropdown
+    setSearchTerm(label);
+    setIsOpen(false); 
   };
 
-
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(event.target.value);
-  };
-
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(null), 5000);
   };
 
   const handleCheckboxChange = () => {
@@ -70,18 +95,8 @@ export default function Form() {
     }
   };
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const toggleConfirmation = () => setConfirmationOpen(!confirmationOpen);
-
-  const showAlert = (message: string) => setAlertMessage(message);
-  const showToast = (message: string) => {
-    setToastMessage(message);
-    setTimeout(() => setToastMessage(null), 3000);
-  };
-
+  const maxDate = new Date()
+  maxDate.setFullYear(maxDate.getFullYear() - 18)
 
   return (
     <form className="space-y-4">
@@ -144,7 +159,7 @@ export default function Form() {
             onFocus={() => setIsOpen(true)}
           />
           {isOpen && (
-            <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+            <ul className="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
               {filteredOptions.map((option) => (
                 <li
                   key={option.value}
@@ -165,10 +180,14 @@ export default function Form() {
             id="dateofbirth"
             selected={startDate}
             onChange={(date: Date | null) => setStartDate(date)}
-            className="border border-gray-300 p-2 rounded-md md:w-96 text-sm"
+            className="border border-gray-300 p-2 rounded-md w-full text-sm"
             placeholderText="DOB"
-            dateFormat="dd MMMM yyyy"
+            dateFormat="MMMM dd, yyyy"
             popperClassName="border border-gray-300 shadow-lg rounded-md"
+            calendarClassName="dob_calendar"
+            dayClassName={(date) => `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`}
+            wrapperClassName="dob_wrapper w-full"
+            maxDate={maxDate}
           />
         </div>
 
@@ -250,10 +269,16 @@ export default function Form() {
         <button
           id="createuser"
           type="submit"
+          onClick={() => showToast('User has been created successfully!')}
           className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 text-sm"
         >
           Create User
         </button>
+        {toastMessage && (
+          <div className="fixed bottom-4 right-4 bg-black text-white p-2 text-sm rounded-md shadow-lg">
+            {toastMessage}
+          </div>
+        )}
         <button
           type="reset"
           className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 text-sm"
