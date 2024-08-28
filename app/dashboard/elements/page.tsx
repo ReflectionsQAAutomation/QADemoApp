@@ -59,7 +59,7 @@ const DemoPage = () => {
 
 
       {/* Modal */}
-      <div className="mb-4 pt-4">
+      <div className="mb-4 pt-4" id="open-modal-section">
         <button
           onClick={toggleModal}
           className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 text-sm"
@@ -111,7 +111,7 @@ const DemoPage = () => {
       </div>
 
       {/* Confirmation Dialog */}
-      <div className='mb-4 pt-4'>
+      <div className='mb-4 pt-4' id="confirmation-dialog-section">
         <button
           onClick={toggleConfirmation}
           className="bg-yellow-500 text-white py-2 px-4 text-sm rounded-md hover:bg-yellow-600"
@@ -142,7 +142,7 @@ const DemoPage = () => {
       </div>
 
       {/* Alerts */}
-      <div className='mb-4 pt-4'>
+      <div className='mb-4 pt-4' id="error-message-section">
         <button
           onClick={() => showAlert('Success!')}
           className="bg-blue-500 text-white py-2 px-4 text-sm rounded-md hover:bg-blue-600 mr-2"
@@ -162,7 +162,7 @@ const DemoPage = () => {
           Show Error Alert
         </button>
         {alertMessage && (
-          <div
+          <div id="error-message"
             className={`mt-2 p-2 rounded-md text-white ${alertMessage === 'Success!' ? 'bg-green-500' : alertMessage === 'Warning!' ? 'bg-yellow-500' : 'bg-red-500'}`}
           >
             {alertMessage}
@@ -171,7 +171,7 @@ const DemoPage = () => {
       </div>
 
       {/* Toast Notifications */}
-      <div className='mb-4 pt-4'>
+      <div className='mb-4 pt-4' id="toast-section">
         <button
           onClick={() => showToast('This is a toast message!')}
           className="bg-purple-500 text-white py-2 px-4 text-sm rounded-md hover:bg-purple-600"
@@ -179,7 +179,7 @@ const DemoPage = () => {
           Show Toast
         </button>
         {toastMessage && (
-          <div className="fixed bottom-4 right-4 bg-black text-white p-2 text-sm rounded-md shadow-lg">
+          <div id="toast-message" className="fixed bottom-4 right-4 bg-black text-white p-2 text-sm rounded-md shadow-lg">
             {toastMessage}
           </div>
         )}
@@ -191,7 +191,7 @@ const DemoPage = () => {
           <Button>Hover me</Button>
         </Tooltip> */}
       {/* </div> */}
-      <div className='mb-4 pt-4'>
+      <div className='mb-4 pt-4' id="alert-section">
         <button
           onClick={() => {
             const confirmed = window.confirm('Are you sure you want to proceed?');
@@ -208,7 +208,7 @@ const DemoPage = () => {
       </div>
 
 
-      <div className='mb-4 pt-4'>
+      <div className='mb-4 pt-4' id="multi-dropdown-section">
         <form>
           <div className='mb-6'>
             <label htmlFor='multi-select' className='block text-md font-medium text-gray-800'>
@@ -235,6 +235,7 @@ const DemoPage = () => {
             <div className='mt-3 space-y-3'>
               <label className='flex items-center'>
                 <input
+                  id='check-usa'
                   type='checkbox'
                   name='usa'
                   checked={checkedItems.usa}
@@ -245,6 +246,7 @@ const DemoPage = () => {
               </label>
               <label className='flex items-center'>
                 <input
+                  id='check-canada'
                   type='checkbox'
                   name='canada'
                   checked={checkedItems.canada}
@@ -255,6 +257,7 @@ const DemoPage = () => {
               </label>
               <label className='flex items-center'>
                 <input
+                  id='check-mexico'
                   type='checkbox'
                   name='mexico'
                   checked={checkedItems.mexico}
@@ -276,7 +279,7 @@ const DemoPage = () => {
       </div>
 
       {/* Sliders */}
-      <div className='mb-4 pt-4'>
+      <div className='mb-4 pt-4' id='single-value-slider-section'>
         <label className="block mb-1 font-medium text-gray-700 text-sm">Single Value Slider:</label>
         <input
           type="range"
@@ -289,7 +292,7 @@ const DemoPage = () => {
         <div className="text-center mt-2 text-sm text-gray-600">{sliderValue}</div>
       </div>
 
-      <div className='mb-4 pt-4'>
+      <div className='mb-4 pt-4' id='range-slider-section'>
         <label className="block mb-1 font-medium text-gray-700 text-sm">Range Slider:</label>
         <div className="flex gap-2">
           <input
